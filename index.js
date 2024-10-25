@@ -1,4 +1,6 @@
 const express = require('express')
+const { v4: uuidv4 } = require('uuid'); 
+
 const app = express()
 app.use(express.json())  // Middleware to parse JSON bodies
 
@@ -23,6 +25,20 @@ app.get('/person/:id?', (req, res) => {
     }
     res.json(persons);
 });
+
+
+// to create a new person
+app.post('/person', (req, res) => {
+    const { name, age, hobbies } = req.body;
+    if (!name || typeof age !== 'number' || !Array.isArray(hobbies)) {
+        return res.status(400).json({ error: 'Invalid input data' });
+    }
+    const newPerson = { id: uuidv4(), name, age, hobbies };
+    persons.push(newPerson);
+    res.status(201).json(newPerson);
+});
+
+
 
 
 
