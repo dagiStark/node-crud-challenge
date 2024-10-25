@@ -40,7 +40,24 @@ app.post('/person', (req, res) => {
 
 
 
+// to update an existing person by ID
+app.put('/person/:id', (req, res) => {
+    const { id } = req.params;
+    const { name, age, hobbies } = req.body;
+    const person = persons.find(p => p.id === id);
 
+    if (!person) {
+        return res.status(404).json({ error: 'Person not found' });
+    }
+    if (!name || typeof age !== 'number' || !Array.isArray(hobbies)) {
+        return res.status(400).json({ error: 'Invalid input data' });
+    }
+
+    person.name = name;
+    person.age = age;
+    person.hobbies = hobbies;
+    res.json(person);
+});
 
 
 if (require.main === module) {
