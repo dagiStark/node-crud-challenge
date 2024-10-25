@@ -37,7 +37,7 @@ app.post('/person', (req, res) => {
     }
     const newPerson = { id: uuidv4(), name, age, hobbies };
     persons.push(newPerson);
-    res.status(201).json(newPerson);
+    res.status(200).json(newPerson);
 });
 
 // to update an existing person by ID
