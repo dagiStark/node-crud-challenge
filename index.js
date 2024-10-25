@@ -1,5 +1,7 @@
 const express = require('express')
 const { v4: uuidv4 } = require('uuid'); 
+const dotenv = require('dotenv')
+dotenv.config()
 
 const app = express()
 app.use(express.json())  // Middleware to parse JSON bodies
@@ -70,7 +72,17 @@ app.delete('/person/:id', (req, res) => {
 });
 
 
+// to handle non-existing routes
+app.use((req, res) => {
+    res.status(404).json({ error: 'Endpoint not found' });
+});
+
+// Start the server if running directly
+
+const port = process.env.PORT
 if (require.main === module) {
-    app.listen(3000)
+    app.listen(port, () => console.log('Server is running on port 3000'));
 }
+
+
 module.exports = app;
