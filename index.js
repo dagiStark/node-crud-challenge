@@ -38,8 +38,6 @@ app.post('/person', (req, res) => {
     res.status(201).json(newPerson);
 });
 
-
-
 // to update an existing person by ID
 app.put('/person/:id', (req, res) => {
     const { id } = req.params;
@@ -57,6 +55,18 @@ app.put('/person/:id', (req, res) => {
     person.age = age;
     person.hobbies = hobbies;
     res.json(person);
+});
+
+// to delete a person by ID
+app.delete('/person/:id', (req, res) => {
+    const { id } = req.params;
+    const index = persons.findIndex(p => p.id === id);
+
+    if (index === -1) {
+        return res.status(404).json({ error: 'Person not found' });
+    }
+    persons.splice(index, 1);
+    res.status(204).end();
 });
 
 
